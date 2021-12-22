@@ -24,5 +24,9 @@ And run the main.py
 
     python3 main.py
 
+# Credits
+
+Intro sound is from https://freesound.org/s/438921/ licensed under [CC0 1.0 license](https://creativecommons.org/publicdomain/zero/1.0/).
+
 # License
 MIT
