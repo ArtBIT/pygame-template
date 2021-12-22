@@ -22,7 +22,7 @@ Install PyGame if you haven't already
 
 And run the main.py
 
-    python3 main.py
+    python3 src/main.py
 
 # Credits
 
