@@ -6,6 +6,8 @@ from input import Input
 from audio import Audio
 from settings import *
 from components import *
+from states import Intro
+
 
 class Game:
     def __init__(self):
@@ -15,22 +17,29 @@ class Game:
         self.clock = pg.time.Clock()
         self.input = Input()
         self.audio = Audio()
-        self.load()
-        self.boot()
+        self.init_states()
 
-    def load(self):
-        self.audio.load_sound('intro', os.path.join('assets', 'sounds', 'intro.wav'))
+    def init_states(self):
+        self.state = None
+        self.states = {}
+        self.states['intro'] = Intro(self)
+        self.change_state('intro')
 
-    def boot(self):
-        self.all_sprites = pg.sprite.Group()
-        self.all_sprites.add(ImageSprite(self, os.path.join('assets', 'images','test.jpg')))
-        self.audio.play('intro')
+    def change_state(self, state):
+        if state in self.states.keys():
+            if self.state:
+                self.state.exit()
+            self.state = self.states[state]
+            self.state.enter()
 
     def loop(self):
         self.is_playing = True
         while self.is_playing:
             if self.input.is_key_down("escape"):
                 self.quit()
+            # elapsed time in ms
+            self.ms = pg.time.get_ticks()
+            # elapsed time since last frame 
             self.dt = self.clock.tick(FPS) / 1000
             self.handle_events()
             self.update()
@@ -48,11 +57,13 @@ class Game:
             self.input.handle_event(event)
 
     def update(self):
-        self.all_sprites.update()
+        if self.state:
+            self.state.update()
 
     def draw(self):
         self.screen.fill(BACKGROUND_COLOR)
-        self.all_sprites.draw(self.screen)
+        if self.state:
+            self.state.draw(self.screen)
         pg.display.flip()
 
 game = Game()
