@@ -9,9 +9,13 @@ class Input:
         self.modifier_key_names = dict(zip((pg.KMOD_LSHIFT, pg.KMOD_RSHIFT, pg.KMOD_SHIFT, pg.KMOD_LCTRL, pg.KMOD_RCTRL, pg.KMOD_CTRL, pg.KMOD_LALT, pg.KMOD_RALT, pg.KMOD_ALT, pg.KMOD_LMETA, pg.KMOD_RMETA, pg.KMOD_META, pg.KMOD_CAPS, pg.KMOD_NUM, pg.KMOD_MODE), ('lshift', 'rshift', 'shift', 'lctrl', 'rctrl', 'ctrl', 'lalt', 'ralt', 'alt', 'lmeta', 'rmeta', 'meta', 'caps', 'num', 'mode')))
 
     def is_key_down(self, key):
+        if key == 'any':
+            return len(self.keys_down) > 0
         return key in self.keys_down
 
     def is_key_pressed(self, key):
+        if key == 'any':
+            return len(self.keys_pressed) > 0
         return key in self.keys_pressed
 
     def update(self):

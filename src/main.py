@@ -6,7 +6,7 @@ from input import Input
 from audio import Audio
 from settings import *
 from components import *
-from states import Intro
+import states
 
 
 class Game:
@@ -22,8 +22,17 @@ class Game:
     def init_states(self):
         self.state = None
         self.states = {}
-        self.states['intro'] = Intro(self)
-        self.change_state('intro')
+        # iterate over __all__ states from states.py instantiate them
+        # and register to the self.states with state.name as the key and state instance 
+        # as value
+        for State in map(states.__dict__.get, states.__all__):
+            state = State(self)
+            name = type(state).__name__
+            self.states[name] = state
+
+        # initialize the first state
+        first_state = list(self.states.keys())[0]
+        self.change_state(first_state)
 
     def change_state(self, state):
         if state in self.states.keys():
