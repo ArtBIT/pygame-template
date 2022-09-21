@@ -9,15 +9,19 @@ class State:
         self.boot()
 
     def boot(self):
+        # override this method to add logic that happens when the state is first initialized
         pass
 
     def update(self):
+        # override this method to add logic that happens on every frame
         pass
 
     def enter(self):
+        # override this method to add logic that happens when this state becomes the current state
         pass
 
     def exit(self):
+        # override this method to add logic that happens when changing from this state to some other state
         pass
 
 class Intro(State):
