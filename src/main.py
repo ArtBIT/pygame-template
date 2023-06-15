@@ -19,6 +19,9 @@ class Game:
         self.audio = Audio()
         self.init_states()
 
+    def register_state(self, state):
+        self.states[type(state).__name__] = state
+
     def init_states(self):
         self.state = None
         self.states = {}
@@ -26,9 +29,7 @@ class Game:
         # and register to the self.states with state.name as the key and state instance 
         # as value
         for State in map(states.__dict__.get, states.__all__):
-            state = State(self)
-            name = type(state).__name__
-            self.states[name] = state
+            self.register_state(State(self))
 
         # initialize the first state
         first_state = list(self.states.keys())[0]

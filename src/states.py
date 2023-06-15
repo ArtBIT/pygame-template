@@ -6,6 +6,7 @@ from components import *
 class State:
     def __init__(self, game):
         self.game = game
+        self.all_sprites = pg.sprite.Group()
         self.boot()
 
     def boot(self):
@@ -14,7 +15,7 @@ class State:
 
     def update(self):
         # override this method to add logic that happens on every frame
-        pass
+        self.all_sprites.update()
 
     def enter(self):
         # override this method to add logic that happens when this state becomes the current state
@@ -24,10 +25,12 @@ class State:
         # override this method to add logic that happens when changing from this state to some other state
         pass
 
+    def draw(self, screen):
+        self.all_sprites.draw(screen)
+
 class Intro(State):
     def boot(self):
         self.game.audio.load_sound('intro', os.path.join('assets', 'sounds', 'intro.wav'))
-        self.all_sprites = pg.sprite.Group()
         self.all_sprites.add(ImageSprite(self.game, os.path.join('assets', 'images', 'test.jpg')))
         text = TextSprite(self.game, os.path.join('assets', 'fonts', 'PressStart2P-Regular.ttf'), "Intro", 24, color = (255,255,255))
         # center text on screen
@@ -43,16 +46,12 @@ class Intro(State):
         self.game.audio.play('intro')
 
     def update(self):
-        self.all_sprites.update()
+        super().update()
         if self.game.input.is_key_pressed('any'):
             self.game.change_state('Outro')
 
-    def draw(self, screen):
-        self.all_sprites.draw(screen)
-
 class Outro(State):
     def boot(self):
-        self.all_sprites = pg.sprite.Group()
         text = TextSprite(self.game, os.path.join('assets', 'fonts', 'PressStart2P-Regular.ttf'), "Outro", 24, color = (255,255,255))
         # center text on screen
         text.rect.center = self.game.screen.get_rect().center
@@ -63,11 +62,8 @@ class Outro(State):
         self.all_sprites.add(text)
 
     def update(self):
-        self.all_sprites.update()
+        super().update()
         if self.game.input.is_key_pressed('any'):
             self.game.quit()
-
-    def draw(self, screen):
-        self.all_sprites.draw(screen)
 
 __all__ = ['Intro', 'Outro']
