@@ -1,3 +1,18 @@
+"""
+This file contains all the settings for the game.
+
+You can change the settings here instead of changing them in the main file.
+
+You can also add more settings here and use them in the main file.
+
+Example:
+    In this file:
+        GAME_TITLE = "My Game"
+    In the main file:
+        import settings
+        print(settings.GAME_TITLE) # prints "My Game"
+"""
+
 # Colors (R, G , B)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
